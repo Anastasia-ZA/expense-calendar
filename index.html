@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Платежный календарь</title>
+    <!-- Подключаем скрипт Telegram -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body { font-family: sans-serif; background-color: var(--tg-theme-bg-color, #ffffff); color: var(--tg-theme-text-color, #000000); padding: 10px; }
+        .invoice-card { border: 1px solid #ccc; border-radius: 8px; padding: 10px; margin-bottom: 10px; background: rgba(0,0,0,0.05); }
+        .amount { font-weight: bold; color: #2ecc71; }
+    </style>
+</head>
+<body>
+    <h2>Мои долги</h2>
+    <div id="list">Загрузка...</div>
+
+    <script>
+        // Инициализация Telegram WebApp
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Развернуть на весь экран
+
+        // Тут мы получим данные от бота (в реальности это будет запрос к вашему API)
+        // А пока просто захардкодим для теста
+        const mockData = [
+            { org: "ИПГ", amount: 63047.50, currency: "RUB", due_date: "16.11.2026" },
+            { org: "Тест", amount: 11111.00, currency: "EUR", due_date: "12.11.2026" }
+        ];
+
+        const list = document.getElementById('list');
+        list.innerHTML = ''; // Очищаем
+
+        mockData.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'invoice-card';
+            div.innerHTML = `
+                <div><strong>${item.org}</strong></div>
+                <div class="amount">${item.amount} ${item.currency}</div>
+                <div>Оплатить до: ${item.due_date}</div>
+            `;
+            list.appendChild(div);
+        });
+    </script>
+</body>
+</html>
